@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Object } from './object'
-// import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const List = () => {
   const [list, setList] = useState([])
@@ -14,15 +13,17 @@ export const List = () => {
         console.log(json)
         setList(json.records)
       })
-  }, [])
+  }, [apiKey])
 
   return (
     <div>
       <h2>techniques:</h2>
       {list.map((item) => {
         return (
-          <Object key={item.id} 
-            name={item.name}/>
+          <Link to={`/object/${item.id}`}>
+            <h3 key={item.id}>{item.name}</h3>
+          </Link>
+
         )
       })}
     </div>
