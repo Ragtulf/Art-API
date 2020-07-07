@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-export const List = () => {
+export const ObjectList = () => {
   const [list, setList] = useState([])
 
   const apiKey = process.env.REACT_APP_API_KEY
 
   useEffect(() => {
-    fetch(`https://api.harvardartmuseums.org/technique?apikey=${apiKey}`)
+    fetch(`https://api.harvardartmuseums.org/object?color=any&hasimage=1&size=40&apikey=${apiKey}`)
       .then((res) => res.json())
       .then((json) => {
         console.log(json)
@@ -17,11 +17,11 @@ export const List = () => {
 
   return (
     <div>
-      <h2>techniques:</h2>
+      <h2>Objects:</h2>
       {list.map((item) => {
         return (
-          <Link to={`/object/${item.id}`}>
-            <h3 key={item.id}>{item.name}</h3>
+          <Link key={item.id} to={`/object/${item.id}`}>
+            <h3>{item.title}</h3>
           </Link>
 
         )
