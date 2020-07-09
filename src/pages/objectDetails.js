@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
+import styled from 'styled-components/macro'
 
 export const ObjectDetails = () => {
   const { objectId } = useParams()
+  const history = useHistory()
   const [objectInfo, setObjectInfo] = useState([])
 
-  const apiKey = process.env.REACT_APP_API_KEY
-
   useEffect(() => {
-    fetch(`https://api.harvardartmuseums.org/object/${objectId}?apikey=${apiKey}`)
+    fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectId}`)
       .then((res) => res.json())
       .then((json) => {
         console.log(json)
@@ -18,16 +18,18 @@ export const ObjectDetails = () => {
 
   return (
     <div>
+      <button type='button' onClick={() => {history.push('/')}}>Back</button>
       <h2>{objectInfo.title}</h2>
-      {objectInfo.colors && objectInfo.colors.map((item) => (
-        <svg>
-          <circle cx={100} cy={100} r={40} fill={item.color} />
-        </svg>
-      ))}
-      <img src={objectInfo.primaryimageurl} alt={objectInfo.technique} />
-      {objectInfo.people && objectInfo.people.map((item) => (
-        <h4>{item.name}</h4>
+      <Artwork src={objectInfo.primaryImage} alt={objectInfo.title} />
+      <h3>{objectInfo.artistDisplayName}</h3>
+      <h4>{objectInfo.medium}</h4>
+      {objectInfo.tags && objectInfo.tags.map((item, index) => (
+        <h6 key={index}>{item.term}</h6>
       ))}
     </div>
   )
 }
+
+const Artwork = styled.img`
+  width: 90%;
+`

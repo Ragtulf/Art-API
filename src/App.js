@@ -16,15 +16,10 @@ export const App = () => {
 
         <Route path="/" exact>
           <ObjectList />
-          <PersonList />
         </Route>
 
         <Route path="/object/:objectId">
           <ObjectDetails />
-        </Route>
-
-        <Route path="/person/:personId">
-          <PersonDetails />
         </Route>
 
       </Switch>
